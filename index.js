@@ -32,10 +32,17 @@ try{
         const fruit = await fruitCollection.findOne(query);
         res.send(fruit)
     })
-    // too add new inventory into db
+    // post api : too add new inventory into db
     app.post('/fruits', async(req,res)=>{
         const newFruit = req.body;
         const result = await fruitCollection.insertOne(newFruit);
+        res.send(result);
+    })
+    // delete api : 
+    app.delete('/fruits/:id',async(req,res)=>{
+        const id = req.params.id;
+        const query = {_id:ObjectId(id)};
+        const result = await fruitCollection.deleteOne(query);
         res.send(result);
     })
 
