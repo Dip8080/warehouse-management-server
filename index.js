@@ -12,7 +12,7 @@ app.use(express.json());
 
 // api creation or loading data from database into server
 // connecting to the database using new user and pass
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rmqj6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 // loading data into specific route from database to server
@@ -25,6 +25,18 @@ try{
         const cursor = fruitCollection.find(query);
         const fruits = await cursor.toArray();
         res.send(fruits);
+    })
+    app.get('/fruits/:id',async(req,res)=>{
+        const id = req.params.id;
+        const query = {_id: ObjectId(id)};
+        const fruit = await fruitCollection.findOne(query);
+        res.send(fruit)
+    })
+    // too add new inventory into db
+    app.post('/fruits', async(req,res)=>{
+        const newFruit = req.body;
+        const result = await fruitCollection.insertOne(newFruit);
+        res.send(result);
     })
 
 }
