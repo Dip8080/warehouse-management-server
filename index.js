@@ -38,6 +38,20 @@ try{
         const result = await fruitCollection.insertOne(newFruit);
         res.send(result);
     })
+    // udate price ;
+    app.put('/fruits/:id', async(req,res)=>{
+        const id = req.params.id;
+        const updatequantity = req.body;
+        const filter = {_id:ObjectId(id)};
+        const options = {upsert : true};
+        const updatedDoc = {
+            $set : {updatequantity}
+        }; 
+        const result = await fruitCollection.updateOne(filter,updatedDoc,options);
+        res.send(result);
+
+
+    })
     // delete api : 
     app.delete('/fruits/:id',async(req,res)=>{
         const id = req.params.id;
