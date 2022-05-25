@@ -59,6 +59,10 @@ try{
         const result = await fruitCollection.deleteOne(query);
         res.send(result);
     })
+    // checking heroku endpoint
+    app.get('/fruitbusket',(req,res)=>{
+        res.send('heroku end point is working')
+    })
 
 }
 finally{
